@@ -1,0 +1,39 @@
+{
+  "2024-10-20": {
+    "Electron": {
+      "application": "Electron",
+      "duration": 329,
+      "formattedDuration": "5 minutes, 29 seconds"
+    },
+    "Visual Studio Code": {
+      "application": "Visual Studio Code",
+      "duration": 281,
+      "formattedDuration": "4 minutes, 41 seconds"
+    },
+    "Desktop": {
+      "application": "Desktop",
+      "duration": 6,
+      "formattedDuration": "6 seconds"
+    },
+    "Microsoft Edge": {
+      "application": "Microsoft Edge",
+      "duration": 1510,
+      "formattedDuration": "25 minutes, 10 seconds"
+    },
+    "Discord": {
+      "application": "Discord",
+      "duration": 59,
+      "formattedDuration": "59 seconds"
+    },
+    "Windows Explorer": {
+      "application": "Windows Explorer",
+      "duration": 25,
+      "formattedDuration": "25 seconds"
+    },
+    "Windows Shell Experience Host": {
+      "application": "Windows Shell Experience Host",
+      "duration": 3,
+      "formattedDuration": "3 seconds"
+    }
+  }
+}
