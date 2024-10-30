@@ -1,0 +1,175 @@
+.tracker-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.controls {
+  margin-bottom: 20px;
+}
+
+.controls button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #45a049;
+}
+
+.usage-data {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.app-entry {
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border-left: 4px solid #ccc;
+}
+
+.app-entry.active {
+  border-left-color: #4CAF50;
+}
+
+.app-entry h3 {
+  margin: 0 0 10px 0;
+}
+
+.app-entry p {
+  margin: 5px 0;
+}
+
+.app-list {
+  margin-top: 20px;
+}
+
+.usage-chart {
+  background-color: white;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 30px;
+}
+
+.usage-chart h2 {
+  margin-bottom: 20px;
+}
+
+.custom-tooltip {
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.custom-tooltip p {
+  margin: 0;
+  padding: 3px 0;
+}
+
+.view-more-button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.view-more-button:hover {
+  background-color: #34495e;
+}
+
+.list-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.view-more-button,
+.view-less-button {
+  width: 100%;
+  padding: 12px;
+  background-color: #2c3e50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.view-more-button:hover,
+.view-less-button:hover {
+  background-color: #34495e;
+}
+
+.pause-button {
+  padding: 10px 20px;
+  background-color: #4A4A4A !important;
+  color: white !important;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.pause-button.paused {
+  background-color: #4A4A4A !important;
+  color: white !important;
+}
+
+.pause-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  background-color: #5a5a5a !important;
+}
+
+.toggle-button {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  background-color: #4A90E2;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 9999;
+}
+
+.toggle-button.open {
+  transform: translateX(205px);
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 250px;
+  background-color: #4A90E2;
+  color: white;
+  transform: translateX(-250px);
+  transition: transform 0.3s ease;
+  z-index: 9998;
+}
+ 
