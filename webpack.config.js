@@ -1,34 +1,33 @@
-
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.js', // Entry point for your React code
+  entry: './src/renderer.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js', // Bundled JavaScript file
+    filename: 'bundle.js'
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-        },
+          options: {
+            presets: ['@babel/preset-react']
+          }
+        }
       },
-    ],
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name][ext]'
+        }
+      }
+    ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/index.html', // HTML template for Webpack to use
-    }),
-  ],
-  devServer: {
-    static: {
-      directory: path.join(__dirname, 'dist'),
-    },
-    compress: true,
-    port: 3000,
-  },
-};
+  resolve: {
+    extensions: ['.js', '.jsx']
+  }
+}; 
