@@ -1,4 +1,5 @@
 Application Time Tracking App:
+
 Features:
 
 - Track time spent on each application
