@@ -81,27 +81,6 @@ const HourlyChart = ({ usageData, isPaused, setIsPaused, getAppColor, lastActive
       height: '700px',
       padding: '20px'
     }}>
-      <div style={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        marginBottom: '10px'
-      }}>
-        <button
-          onClick={() => setIsPaused(!isPaused)}
-          style={{
-            padding: '8px 16px',
-            backgroundColor: isPaused ? '#2ecc71' : '#e74c3c',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          {isPaused ? 'Resume Tracking' : 'Pause Tracking'}
-        </button>
-      </div>
-      
       <div style={{ width: '100%', height: '450px' }}>
         <Bar data={chartData} options={options} />
       </div>

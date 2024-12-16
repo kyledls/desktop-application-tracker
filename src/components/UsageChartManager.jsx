@@ -4,9 +4,11 @@ import HourlyChart from './charts/HourlyChart';
 import DailyChart from './charts/DailyChart';
 import WeeklyChart from './charts/WeeklyChart';
 const activeWin = window.require('active-win');
+const { ipcRenderer } = window.require('electron');
 
 const UPDATE_INTERVAL = 50;
 const TOTAL_TIME = 10;
+const SAVE_INTERVAL = 1000; // Save every second instead of every minute
 
 const UsageChartManager = ({ timeRange }) => {
   const [tenSecondData, setTenSecondData] = useState({});
@@ -18,6 +20,35 @@ const UsageChartManager = ({ timeRange }) => {
   const [isPaused, setIsPaused] = useState(false);
   
   const lastUpdateTime = useRef(performance.now());
+
+  // Load saved data on component mount
+  useEffect(() => {
+    ipcRenderer.invoke('load-data').then((savedData) => {
+      if (savedData) {
+        setTenSecondData(savedData.tenSecondData || {});
+        setHourlyData(savedData.hourlyData || {});
+        setDailyData(savedData.dailyData || {});
+        setWeeklyData(savedData.weeklyData || {});
+        setColorMap(savedData.colorMap || {});
+      }
+    });
+  }, []);
+
+  // Save data periodically
+  useEffect(() => {
+    const saveInterval = setInterval(() => {
+      const dataToSave = {
+        tenSecondData,
+        hourlyData,
+        dailyData,
+        weeklyData,
+        colorMap
+      };
+      ipcRenderer.invoke('save-data', dataToSave);
+    }, SAVE_INTERVAL);
+
+    return () => clearInterval(saveInterval);
+  }, [tenSecondData, hourlyData, dailyData, weeklyData, colorMap]);
 
   const normalizeData = useCallback((data) => {
     const total = Object.values(data).reduce((sum, time) => sum + time, 0);
@@ -132,6 +163,31 @@ const UsageChartManager = ({ timeRange }) => {
     return () => clearInterval(interval);
   }, [updateUsageData]);
 
+  useEffect(() => {
+    const handleToggleTracking = (event, isPausedState) => {
+        setIsPaused(isPausedState);
+    };
+    
+    ipcRenderer.on('toggle-tracking', handleToggleTracking);
+    
+    return () => {
+        ipcRenderer.removeListener('toggle-tracking', handleToggleTracking);
+    };
+  }, []);
+
+  const handleReset = async () => {
+    if (window.confirm('Are you sure you want to reset all tracking data? This cannot be undone.')) {
+      const resetData = await ipcRenderer.invoke('reset-data');
+      if (resetData) {
+        setTenSecondData({});
+        setHourlyData({});
+        setDailyData({});
+        setWeeklyData({});
+        setColorMap({});
+      }
+    }
+  };
+
   const renderChart = () => {
     const commonProps = {
       isPaused,
@@ -140,18 +196,65 @@ const UsageChartManager = ({ timeRange }) => {
       lastActiveTime
     };
 
-    switch (timeRange) {
-      case '10s':
-        return <TenSecondChart {...commonProps} usageData={tenSecondData} />;
-      case '1h':
-        return <HourlyChart {...commonProps} usageData={hourlyData} />;
-      case '1d':
-        return <DailyChart {...commonProps} usageData={dailyData} />;
-      case '1w':
-        return <WeeklyChart {...commonProps} usageData={weeklyData} />;
-      default:
-        return <TenSecondChart {...commonProps} usageData={tenSecondData} />;
-    }
+    return (
+      <div>
+        <div style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-end',
+          gap: '10px',
+          marginBottom: '10px'
+        }}>
+          <button
+            onClick={handleReset}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: '#95a5a6',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            <span style={{ fontSize: '14px' }}>🔄</span>
+            Reset Data
+          </button>
+          <button
+            onClick={() => setIsPaused(!isPaused)}
+            style={{
+              padding: '8px 16px',
+              backgroundColor: isPaused ? '#2ecc71' : '#e74c3c',
+              color: 'white',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px'
+            }}
+          >
+            {isPaused ? (
+              <>
+                <span style={{ fontSize: '14px' }}>▶️</span>
+                Resume Tracking
+              </>
+            ) : (
+              <>
+                <span style={{ fontSize: '14px' }}>⏸</span>
+                Pause Tracking
+              </>
+            )}
+          </button>
+        </div>
+        {timeRange === '10s' && <TenSecondChart {...commonProps} usageData={tenSecondData} />}
+        {timeRange === '1h' && <HourlyChart {...commonProps} usageData={hourlyData} />}
+        {timeRange === '1d' && <DailyChart {...commonProps} usageData={dailyData} />}
+        {timeRange === '1w' && <WeeklyChart {...commonProps} usageData={weeklyData} />}
+      </div>
+    );
   };
 
   return (
