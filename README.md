@@ -11,10 +11,11 @@ Features:
 - Guest Mode
 
 Instructions:
-Download latest release as zip file
-Install MongoDB (Download): https://www.mongodb.com/try/download/community (Optional for user authentication)
-Create a new connection on MongoDB (you will be prompted upon opening the application for the first time)  
-Open in IDE and terminal
-Within the terminal run “npm install”
-Within the terminal run “node server/server.js” (Optional for user authentication)
-Then run “npm run build” and then “npm start”
+
+1. Download latest release as zip file
+2. Install MongoDB (Download): https://www.mongodb.com/try/download/community (Optional for user authentication)
+3. Create a new connection on MongoDB (you will be prompted upon opening the application for the first time)
+4. Open in IDE and terminal
+5. Within the terminal run “npm install”
+6. Within the terminal run “node server/server.js” (Optional for user authentication)
+7. Then run “npm run build” and then “npm start”
